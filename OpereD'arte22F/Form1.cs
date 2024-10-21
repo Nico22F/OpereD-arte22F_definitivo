@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -20,6 +21,8 @@ namespace OpereD_arte22F
             InitializeComponent();
         }
 
+        public int n_artista = 0;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             tabella_.Leggi();
@@ -33,7 +36,7 @@ namespace OpereD_arte22F
                 a.Anno_nascita,
                 a.Anno_morte,
                 a.Image_link,
-                DescrizioneTroncata = a.DescrizioneTroncata // Troncata qui
+                a.Wiki,
             }).ToList();
 
             NascondiLabel();
@@ -44,7 +47,6 @@ namespace OpereD_arte22F
             label_COGOME_VARIABILE.Visible = false;
             label_NOME_ARTISTA_VARIABILE.Visible = false;
             label_NAZIONALITA_VARIABILE.Visible = false;
-            label_DESCRIZIONE.Visible = false;
             STILE_LABEL.Visible = false;
             label_VITA.Visible = false;
         }
@@ -54,6 +56,7 @@ namespace OpereD_arte22F
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 int indiceLista = e.RowIndex;
+                n_artista = e.RowIndex;
                 Arte operaSelezionata = tabella_.tabella[indiceLista];
 
                 // Mostra i dettagli nell'interfaccia
@@ -66,20 +69,49 @@ namespace OpereD_arte22F
                 label_NAZIONALITA_VARIABILE.Visible = true;
                 label_NAZIONALITA_VARIABILE.Text = operaSelezionata.Nazionalità;
 
-                label_DESCRIZIONE.Visible = true;
-                label_DESCRIZIONE.Text = operaSelezionata.Descrizione; // Descrizione completa
-
                 STILE_LABEL.Visible = true;
                 STILE_LABEL.Text = operaSelezionata.Stile;
 
                 label_VITA.Visible = true;
                 label_VITA.Text = $"{operaSelezionata.Anno_nascita} - {operaSelezionata.Anno_morte}";
+                
+                browser22F.Navigate(operaSelezionata.Wiki); // inserisce il link dele immagini 
             }
         }
 
-        private void label_DESCRIZIONE_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(label_DESCRIZIONE.Text, "Descrizione Completa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Random random = new Random();
+            int n = random.Next(1,422);
+
+            n_artista = n;
+
+            Arte operaSelezionata = tabella_.tabella[n];
+
+            // Mostra i dettagli nell'interfaccia
+            label_COGOME_VARIABILE.Visible = true;
+            label_COGOME_VARIABILE.Text = operaSelezionata.Cognome;
+
+            label_NOME_ARTISTA_VARIABILE.Visible = true;
+            label_NOME_ARTISTA_VARIABILE.Text = operaSelezionata.Nome;
+
+            label_NAZIONALITA_VARIABILE.Visible = true;
+            label_NAZIONALITA_VARIABILE.Text = operaSelezionata.Nazionalità;
+
+            STILE_LABEL.Visible = true;
+            STILE_LABEL.Text = operaSelezionata.Stile;
+
+            label_VITA.Visible = true;
+            label_VITA.Text = $"{operaSelezionata.Anno_nascita} - {operaSelezionata.Anno_morte}";
+
+            browser22F.Navigate(operaSelezionata.Wiki); // inserisce il link dele immagini 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Arte operaSelezionata = tabella_.tabella[n_artista];
+            string url = operaSelezionata.Image_link;
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
     }
 }

@@ -22,9 +22,9 @@ namespace OpereD_arte22F
                     {
                         string[] riga = letto.Split(',');
 
-                        if (riga.Length >= 9)
+                        if (riga.Length >= 8)
                         {
-                            Arte arte = new Arte(riga[0], riga[1], riga[2], riga[3], riga[4], riga[5], riga[6], riga[7], riga[8]);
+                            Arte arte = new Arte(riga[0], riga[1], riga[2], riga[3], riga[4], riga[5], riga[6], riga[7]);
                             tabella.Add(arte);
                         }
                     }
