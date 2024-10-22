@@ -35,10 +35,7 @@ namespace OpereD_arte22F
         }
         public Arte() { }
 
-        public override string ToString()
-        {
-            return $"{Nome} {Cognome} ({Nazionalità}), {Stile}, {Anno_nascita} - {Anno_morte}";
-        }
+        
     }
 
 }
